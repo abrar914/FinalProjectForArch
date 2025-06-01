@@ -1,0 +1,11 @@
+[
+  {
+    "id": 1001,
+    "customer": "Jane Doe",
+    "items": [
+      { "name": "Wireless Mouse", "qty": 1 },
+      { "name": "Mechanical Keyboard", "qty": 1 }
+    ],
+    "total": 111.49
+  }
+]
