@@ -1,3 +1,4 @@
+<!-- src/views/LoginView.vue -->
 <template>
   <div class="container mt-5">
     <h2>Login</h2>
@@ -17,7 +18,7 @@
           <option value="admin">Admin</option>
         </select>
       </div>
-      <button class="btn btn-primary" @click="login">Login</button>
+      <button class="btn btn-primary">Login</button>
     </form>
     <div v-if="error" class="alert alert-danger mt-3">{{ error }}</div>
   </div>
@@ -35,24 +36,44 @@ export default {
   },
   methods: {
     login() {
-      console.log("Login button clicked");
-      const users = JSON.parse(localStorage.getItem('users')) || [];
-
-      const foundUser = users.find(
-        u => u.email === this.email && u.password === this.password && u.role === this.role
-      );
-
-      if (foundUser) {
-        localStorage.setItem('user', JSON.stringify(foundUser));
-        window.dispatchEvent(new Event('storage'));
-        this.$router.push(this.role === 'admin' ? '/admin' : '/customer');
+      if (this.role === 'admin') {
+        // Hardcoded admin credentials
+        if (this.email === 'admin@store.com' && this.password === 'admin123') {
+          const adminUser = {
+            email: this.email,
+            role: 'admin'
+          };
+          localStorage.setItem('user', JSON.stringify(adminUser));
+          window.dispatchEvent(new Event('storage'));
+          this.$router.push('/admin');
+        } else {
+          this.error = 'Invalid admin credentials.';
+        }
       } else {
-        this.error = 'Invalid email, password, or role.';
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        const foundUser = users.find(
+          u => u.email === this.email && u.password === this.password && u.role === 'customer'
+        );
+
+        if (foundUser) {
+          localStorage.setItem('user', JSON.stringify(foundUser));
+          window.dispatchEvent(new Event('storage'));
+          this.$router.push('/customer');
+        } else {
+          this.error = 'Invalid email or password.';
+        }
       }
     }
   }
 };
 </script>
+
+
+
+
+
+
+
 
 
 
