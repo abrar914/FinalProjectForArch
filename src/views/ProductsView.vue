@@ -1,4 +1,3 @@
-<!-- src/views/ProductsView.vue -->
 <template>
   <div class="container mt-5">
     <h2 class="mb-4">Products</h2>
@@ -45,13 +44,28 @@ export default {
   methods: {
     addToCart(product) {
       const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-      cart.push(product);
+      const existingItem = cart.find(item => item.id === product.id);
+
+      if (existingItem) {
+        if (existingItem.quantity >= product.quantity) {
+          alert(`Only ${product.quantity} of ${product.name} in stock. You can't add more.`);
+          return;
+        }
+        existingItem.quantity += 1;
+      } else {
+        cart.push({ ...product, quantity: 1 });
+      }
+
       localStorage.setItem('cart', JSON.stringify(cart));
       alert(`${product.name} added to cart.`);
     }
   }
 };
 </script>
+
+
+
+
 
 
 

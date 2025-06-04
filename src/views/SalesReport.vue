@@ -1,4 +1,3 @@
-<!-- src/views/SalesReport.vue -->
 <template>
   <div class="container mt-5">
     <h2>Sales Report</h2>
@@ -34,7 +33,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 
 const sales = ref([]);
 const totalItems = ref(0);
@@ -46,20 +45,24 @@ onMounted(() => {
 
   orders.forEach(order => {
     order.items.forEach(item => {
-      if (!productSales[item.name]) {
-        productSales[item.name] = {
-          name: item.name,
+      const name = item.name || 'Unnamed';
+      const quantity = item.quantity ? Number(item.quantity) : 1;
+      const price = item.price ? Number(item.price) : 0;
+
+      if (!productSales[name]) {
+        productSales[name] = {
+          name,
           quantity: 0,
           total: 0
         };
       }
-      productSales[item.name].quantity += item.quantity || 1;
-      productSales[item.name].total += item.price * (item.quantity || 1);
+
+      productSales[name].quantity += quantity;
+      productSales[name].total += price * quantity;
     });
   });
 
   sales.value = Object.values(productSales);
-
   totalItems.value = sales.value.reduce((sum, item) => sum + item.quantity, 0);
   totalRevenue.value = sales.value.reduce((sum, item) => sum + item.total, 0);
 });
@@ -70,3 +73,6 @@ onMounted(() => {
   max-width: 800px;
 }
 </style>
+
+
+

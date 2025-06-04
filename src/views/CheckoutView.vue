@@ -10,29 +10,27 @@
       <div class="mb-3">
         <label class="form-label">Card Number</label>
         <input
-  type="text"
-  v-model="cardNumber"
-  class="form-control"
-  required
-  pattern="^\d{16}$"
-  title="Card number must be exactly 16 digits"
-/>
-
+          type="text"
+          v-model="cardNumber"
+          class="form-control"
+          required
+          pattern="^\d{16}$"
+          title="Card number must be exactly 16 digits"
+        />
       </div>
 
       <div class="mb-3">
         <label class="form-label">CVC (3 digits)</label>
         <input
-  type="text"
-  v-model="cardCVC"
-  class="form-control"
-  required
-  pattern="^\d{3}$"
-  title="CVC must be 3 digits"
-  maxlength="3"
-  @input="cardCVC = cardCVC.replace(/\D/g, '')"
-/>
-
+          type="text"
+          v-model="cardCVC"
+          class="form-control"
+          required
+          pattern="^\d{3}$"
+          title="CVC must be 3 digits"
+          maxlength="3"
+          @input="cardCVC = cardCVC.replace(/\D/g, '')"
+        />
       </div>
 
       <div class="mb-3">
@@ -52,7 +50,7 @@ export default {
     return {
       fullName: '',
       cardNumber: '',
-      cvc: '',
+      cardCVC: '',
       address: ''
     };
   },
@@ -69,9 +67,9 @@ export default {
 
       // Update inventory
       cart.forEach(cartItem => {
-        const productIndex = products.findIndex(p => p.name === cartItem.name);
-        if (productIndex !== -1 && products[productIndex].quantity > 0) {
-          products[productIndex].quantity -= 1;
+        const index = products.findIndex(p => p.name === cartItem.name);
+        if (index !== -1 && products[index].quantity >= cartItem.quantity) {
+          products[index].quantity -= cartItem.quantity;
         }
       });
       localStorage.setItem('products', JSON.stringify(products));
@@ -80,11 +78,11 @@ export default {
       const orders = JSON.parse(localStorage.getItem('orders') || '[]');
       const newOrder = {
         id: Date.now(),
-        customer: user.email, // using email as ID
+        customer: user.email,
         fullName: this.fullName,
         address: this.address,
         card: this.cardNumber,
-        cvc: this.cvc,
+        cvc: this.cardCVC,
         items: cart,
         date: new Date().toLocaleString()
       };
@@ -99,11 +97,7 @@ export default {
 };
 </script>
 
-<style scoped>
-.container {
-  max-width: 600px;
-}
-</style>
+
 
 
 

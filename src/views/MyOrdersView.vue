@@ -8,7 +8,7 @@
           <h5 class="card-title">Order #{{ index + 1 }}</h5>
           <p><strong>Name:</strong> {{ order.fullName }}</p>
           <p><strong>Address:</strong> {{ order.address }}</p>
-          <p><strong>Card Ending:</strong> ****{{ order.card.slice(-4) }}</p>
+          <p><strong>Card Ending:</strong> ****{{ order.card?.slice(-4) }}</p>
           <p><strong>Date:</strong> {{ order.date }}</p>
           <p><strong>Items:</strong></p>
           <ul>
@@ -36,13 +36,14 @@ export default {
     this.allOrders = JSON.parse(localStorage.getItem('orders')) || [];
 
     if (this.currentUser && this.currentUser.email) {
-      this.myOrders = this.allOrders.filter(
-        order => order.customer === this.currentUser.email
+      this.myOrders = this.allOrders.filter(order =>
+        order.customer === this.currentUser.email || order.email === this.currentUser.email
       );
     }
   }
 };
 </script>
+
 
 
 
