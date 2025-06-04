@@ -15,7 +15,7 @@
           </router-link>
         </li>
         <li v-if="isCustomer" class="nav-item">
-          <router-link class="nav-link" to="/myorders">My Orders</router-link>
+          <router-link class="nav-link" to="/my-orders">My Orders</router-link>
         </li>
         <li v-if="isAdmin" class="nav-item">
           <router-link class="nav-link" to="/admin">Admin Panel</router-link>
