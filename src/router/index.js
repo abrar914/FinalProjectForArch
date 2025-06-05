@@ -15,7 +15,7 @@ const AdminDashboard = () => import('../views/AdminDashboard.vue')
 const AdminAddProduct = () => import('../views/AdminAddProduct.vue')
 const ManageInventory = () => import('../views/ManageInventory.vue')
 const SalesReport = () => import('../views/SalesReport.vue') // ✅ NEW
-
+const ProfileView = () => import('../views/ProfileView.vue');
 const CustomerDashboard = () => import('../views/CustomerDashboard.vue')
 
 const router = createRouter({
@@ -34,7 +34,7 @@ const router = createRouter({
     { path: '/admin/add-product', name: 'AdminAddProduct', component: AdminAddProduct, meta: { requiresAuth: true, role: 'admin' } },
     { path: '/admin/manage-inventory', name: 'ManageInventory', component: ManageInventory, meta: { requiresAuth: true, role: 'admin' } },
     { path: '/admin/sales-report', name: 'SalesReport', component: SalesReport, meta: { requiresAuth: true, role: 'admin' } }, // ✅
-
+    { path: '/profile', name: 'Profile', component: ProfileView, meta: { requiresAuth: true, role: 'customer' } },
     { path: '/customer', name: 'CustomerDashboard', component: CustomerDashboard, meta: { requiresAuth: true, role: 'customer' } },
   ]
 })
@@ -57,21 +57,3 @@ router.beforeEach((to, from, next) => {
 })
 
 export default router
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
